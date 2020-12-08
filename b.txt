@@ -1,0 +1,1178 @@
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -D MLFQ -fno-pie -no-pie   -c -o benchmark.o benchmark.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o _benchmark benchmark.o ulib.o usys.o printf.o umalloc.o
+objdump -S _benchmark > benchmark.asm
+objdump -t _benchmark | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > benchmark.sym
+./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _mkdir _rm _sh _stressfs _usertests _wc _zombie _user_prog_hello _time _benchmark _ps _setPriority 
+nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
+balloc: first 712 blocks have been allocated
+balloc: write bitmap block at sector 58
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 2 -m 512 
+xv6...
+cpu1: starting 1
+Inside allocproc() allotted pid 1
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+[8] 1 1 D
+[11] 1 2 D
+[20] 1 3 D
+[45] 1 4 D
+[1;32mEntered main() of init.c state 2
+[0m[1;32mEntered main() of init.c state 3
+[0m[1;33minit: starting sh
+[0mInside allocproc() allotted pid 2
+[1;35mBefore waiting
+[0mInside wait()for pid 1
+[67] 2 1 D
+$ benchmark
+Inside allocproc() allotted pid 3
+Inside wait()for pid 2
+[411] 3 1 D
+Inside allocproc() allotted pid 4
+[416] 3 2 D
+Inside allocproc() allotted pid 5
+Inside allocproc() allotted pid 6
+Inside allocproc() allotted pid 7
+Inside allocproc() allotted pid 8
+Inside allocproc() allotted pid 9
+Inside allocproc() allotted pid 10
+Inside allocproc() allotted pid 11
+Inside allocproc() allotted pid 12
+Inside allocproc() allotted pid 13
+Inside allocproc() allotted pid 14
+Inside allocproc() allotted pid 15
+[419] Inside exit() for pid 3 with overall runtime 9 and overall wait time 2
+[420] 4 1 D
+[421] 5 1 D
+[423] 6 1 D
+[423] 7 1 D
+[425] 8 1 D
+[425] 9 1 D
+[427] 10 1 D
+[428] 11 1 D
+[430] 12 1 D
+[431] 13 1 D
+[433] 14 1 D
+$ Size of queue id 0 is 0
+Size of queue id 1 is 10
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 0
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	51	0	27	4	3	3	7	19	19
+2	60		sleep    	6	0	18	1	2	4	0	0	0
+4	60		running  	2	0	2	1	2	0	0	0	0
+5	60		runable  	3	12	1	1	3	0	0	0	0
+6	60		runable  	2	10	1	1	2	0	0	0	0
+7	60		runable  	2	10	1	1	2	0	0	0	0
+8	60		runable  	2	8	1	1	2	0	0	0	0
+9	60		runable  	2	8	1	1	2	0	0	0	0
+10	60		runable  	2	6	1	1	2	0	0	0	0
+11	60		runable  	3	5	1	1	3	0	0	0	0
+12	60		runable  	2	3	1	1	2	0	0	0	0
+13	60		runable  	3	2	1	1	3	0	0	0	0
+14	60		runable  	2	0	1	1	2	0	0	0	0
+15	60		running  	2	0	1	0	2	0	0	0	0
+[434] Inside exit() for pid 4 with overall runtime 3 and overall wait time 16
+[434] 15 1 D
+[437] 5 2 D
+[438] 6 2 D
+[441] 7 2 D
+[442] 8 2 D
+[445] 9 2 D
+[447] 10 2 D
+[448] 11 2 D
+[450] 12 2 D
+[452] 13 2 D
+[454] 14 2 D
+[456] 15 2 D
+[459] 5 3 D
+[461] 6 3 D
+[464] 7 3 D
+[467] 8 3 D
+[469] 9 3 D
+[472] 10 3 D
+[473] 1 3 P
+[474] 11 3 D
+[478] 12 3 D
+[479] 13 3 D
+[483] 14 3 D
+[484] 15 3 D
+[493] 5 4 D
+[493] 6 4 D
+[502] 7 4 D
+[503] 9 2 P
+[504] 8 4 D
+[505] 10 2 P
+[508] 9 3 D
+[509] 1 2 P
+[509] 12 2 P
+zombie!
+Inside wait()for pid 1
+[510] 11 2 P
+[510] 10 3 D
+[511] 13 2 P
+[515] 12 3 D
+[516] 14 2 P
+[516] 11 3 D
+[517] 15 2 P
+[521] 13 3 D
+[523] 14 3 D
+[527] 15 3 D
+[531] 9 4 D
+[531] 5 3 P
+[536] 10 4 D
+[536] 6 3 P
+[540] 12 4 D
+[541] 7 3 P
+[545] 11 4 D
+[546] 8 3 P
+[549] 13 4 D
+[555] 14 4 D
+[558] 15 4 D
+[565] 5 4 D
+[567] 6 4 D
+[567] 9 3 P
+[575] 7 4 D
+[575] 10 3 P
+[576] 8 4 D
+[577] 12 3 P
+[584] 9 4 D
+[585] 11 3 P
+[586] 10 4 D
+[587] 13 3 P
+[594] 12 4 D
+[595] 14 3 P
+[596] 11 4 D
+[597] 15 3 P
+[604] 13 4 D
+[605] 5 3 P
+[606] 14 4 D
+[607] 6 3 P
+[614] 15 4 D
+[615] 7 3 P
+[616] 5 4 D
+[617] 8 3 P
+[624] 6 4 D
+[625] 9 3 P
+[626] 7 4 D
+[627] 10 3 P
+[634] 8 4 D
+[635] 12 3 P
+[635] 9 4 D
+[636] 11 3 P
+[644] 10 4 D
+[645] 13 3 P
+[645] 12 4 D
+[646] 14 3 P
+[654] 11 4 D
+[654] 15 3 P
+[654] 13 4 D
+[655] 5 3 P
+[663] 14 4 D
+[664] 6 3 P
+[664] 15 4 D
+[665] 7 3 P
+[673] 5 4 D
+[674] 8 3 P
+[674] 6 4 D
+[675] 9 3 P
+[683] 7 4 D
+[683] 10 3 P
+[683] 8 4 D
+[684] 12 3 P
+[692] 9 4 D
+[693] 11 3 P
+[693] 10 4 D
+[694] 13 3 P
+[702] 12 4 D
+[703] 14 3 P
+[704] 11 4 D
+[704] 15 3 P
+[712] 13 4 D
+[713] 5 3 P
+[714] 14 4 D
+[715] 6 3 P
+[722] 15 4 D
+[723] 7 3 P
+[724] 5 4 D
+[725] 8 3 P
+[732] 6 4 D
+[733] 9 3 P
+[734] 7 4 D
+[736] 10 3 P
+[742] 8 4 D
+[743] 12 3 P
+[745] 9 4 D
+[746] 11 3 P
+[752] 10 4 D
+[753] 13 3 P
+[755] 12 4 D
+[756] 14 3 P
+[762] 11 4 D
+[763] 15 3 P
+[764] 13 4 D
+[765] 5 3 P
+[772] 14 4 D
+[773] 6 3 P
+[775] 15 4 D
+[776] 7 3 P
+[782] 5 4 D
+[783] 8 3 P
+[785] 6 4 D
+[786] 9 3 P
+[792] 7 4 D
+[793] 10 3 P
+[794] 8 4 D
+[795] 12 3 P
+[802] 9 4 D
+[803] 11 3 P
+[804] 10 4 D
+[805] 13 3 P
+[812] 12 4 D
+[813] 14 3 P
+[814] 11 4 D
+[815] 15 3 P
+[822] 13 4 D
+[823] 5 3 P
+[824] 14 4 D
+[825] 6 3 P
+[832] 15 4 D
+[833] 7 3 P
+[834] 5 4 D
+[835] 8 3 P
+[842] 6 4 D
+[843] 9 3 P
+[844] 7 4 D
+[845] 10 3 P
+[852] 8 4 D
+[853] 12 3 P
+[854] 9 4 D
+[855] 11 3 P
+[862] 10 4 D
+[863] 13 3 P
+[864] 12 4 D
+[865] 14 3 P
+[872] 11 4 D
+[872] 15 3 P
+[873] 13 4 D
+[874] 5 3 P
+[881] 14 4 D
+[882] 6 3 P
+[883] 15 4 D
+[885] 7 3 P
+[891] 5 4 D
+[892] 8 3 P
+[894] 6 4 D
+[895] 9 3 P
+[901] 7 4 D
+[902] 10 3 P
+[903] 8 4 D
+[904] 12 3 P
+[911] 9 4 D
+[912] 11 3 P
+[913] 10 4 D
+[914] 13 3 P
+[921] 12 4 D
+[922] 14 3 P
+[923] 11 4 D
+[924] 15 3 P
+[931] 13 4 D
+[932] 5 3 P
+[933] 14 4 D
+[934] 6 3 P
+[941] 15 4 D
+[942] 7 3 P
+[943] 5 4 D
+[945] 8 3 P
+[951] 6 4 D
+[952] 9 3 P
+[954] 7 4 D
+[955] 10 3 P
+[961] 8 4 D
+[962] 12 3 P
+[963] 9 4 D
+[964] 11 3 P
+[971] 10 4 D
+[972] 13 3 P
+[973] 12 4 D
+[974] 14 3 P
+[981] 11 4 D
+[982] 15 3 P
+[983] 13 4 D
+[985] 5 3 P
+[991] 14 4 D
+[992] 6 3 P
+[994] 15 4 D
+[995] 7 3 P
+[1001] 5 4 D
+[1002] 8 3 P
+[1003] 6 4 D
+[1004] 9 3 P
+[1011] 7 4 D
+[1012] 10 3 P
+[1012] 8 4 D
+[1013] 12 3 P
+[1021] 9 4 D
+[1022] 10 4 D
+[1022] 11 3 P
+[1022] 13 3 P
+[1031] 11 4 D
+[1031] 14 3 P
+[1031] 12 4 D
+[1032] 15 3 P
+[1040] 13 4 D
+[1041] 5 3 P
+[1041] 14 4 D
+[1042] 6 3 P
+[1050] 15 4 D
+[1051] 7 3 P
+[1051] 5 4 D
+[1052] 8 3 P
+[1060] 6 4 D
+[1061] 9 3 P
+[1061] 7 4 D
+[1062] 10 3 P
+[1070] 8 4 D
+[1071] 11 3 P
+[1071] 9 4 D
+[1072] 12 3 P
+[1080] 10 4 D
+[1081] 13 3 P
+[1081] 11 4 D
+[1083] 14 3 P
+[1090] 12 4 D
+[1091] 15 3 P
+[1092] 13 4 D
+[1094] 5 3 P
+[1100] 14 4 D
+[1101] 6 3 P
+[1103] 15 4 D
+[1104] 7 3 P
+[1110] 5 4 D
+[1111] 8 3 P
+[1112] 6 4 D
+[1113] 9 3 P
+[1120] 7 4 D
+[1121] 10 3 P
+[1122] 8 4 D
+[1123] 11 3 P
+[1130] 9 4 D
+[1131] 12 3 P
+[1132] 10 4 D
+[1133] 13 3 P
+[1140] 11 4 D
+[1141] 14 3 P
+[1142] 12 4 D
+[1143] 15 3 P
+[1150] 13 4 D
+[1151] 5 3 P
+[1151] 14 4 D
+[1152] 6 3 P
+[1160] 15 4 D
+[1161] 7 3 P
+[1161] 5 4 D
+[1162] 8 3 P
+[1170] 6 4 D
+[1171] 9 3 P
+[1171] 7 4 D
+[1172] 10 3 P
+[1180] 8 4 D
+[1181] 11 3 P
+[1181] 9 4 D
+[1182] 12 3 P
+[1190] 10 4 D
+[1191] 13 3 P
+[1191] 11 4 D
+[1192] 14 3 P
+[1200] 12 4 D
+[1201] 15 3 P
+[1201] 13 4 D
+[1202] 5 3 P
+[1210] 14 4 D
+[1211] 15 4 D
+[1211] 6 3 P
+[1211] 7 3 P
+[1219] 5 4 D
+[1220] 8 3 P
+[1220] 6 4 D
+[1221] 9 3 P
+[1228] 7 4 D
+[1230] 8 4 D
+[1230] 10 3 P
+[1230] 11 3 P
+[1239] 9 4 D
+[1240] 12 3 P
+[1240] 10 4 D
+[1241] 13 3 P
+[1249] 11 4 D
+[1250] 14 3 P
+[1250] 12 4 D
+[1251] 15 3 P
+[1259] 13 4 D
+[1260] 5 3 P
+[1260] 14 4 D
+[1261] 6 3 P
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 1
+Size of queue id 4 is 8
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	52	0	28	2	3	3	8	19	19
+2	60		sleep    	6	0	18	1	2	4	0	0	0
+5	60		running  	149	0	18	3	3	3	5	138	0
+6	60		runable  	138	6	17	3	2	4	5	127	0
+7	60		runable  	141	38	17	4	2	3	5	131	0
+8	60		runable  	140	36	17	4	2	4	5	129	0
+9	60		runable  	144	27	18	4	2	3	10	129	0
+10	60		runable  	149	26	18	4	2	3	11	133	0
+11	60		runable  	150	17	18	4	3	3	11	133	0
+12	60		runable  	147	16	18	4	2	3	10	132	0
+13	60		runable  	144	7	18	4	3	3	10	128	0
+14	60		runable  	149	6	18	4	2	4	11	132	0
+15	60		running  	142	0	18	3	3	3	10	126	0
+[1267] Inside exit() for pid 5 with overall runtime 149 and overall wait time 702
+[1267] 7 3 P
+zombie!
+Inside wait()for pid 1
+[1267] 8 3 P
+[1269] 15 4 D
+[1275] 6 4 D
+[1276] 9 3 P
+[1279] 7 4 D
+[1279] 10 3 P
+[1284] 8 4 D
+[1288] 9 4 D
+[1290] 11 3 P
+[1294] 10 4 D
+[1294] 12 3 P
+[1299] 11 4 D
+[1300] 13 3 P
+[1302] 12 4 D
+[1304] 14 3 P
+[1309] 13 4 D
+[1310] 15 3 P
+[1313] 14 4 D
+[1314] 6 3 P
+[1319] 15 4 D
+[1320] 7 3 P
+[1322] 6 4 D
+[1323] 8 3 P
+[1329] 7 4 D
+[1330] 9 3 P
+[1331] 8 4 D
+[1332] 10 3 P
+[1339] 9 4 D
+[1340] 11 3 P
+[1341] 10 4 D
+[1342] 12 3 P
+[1349] 11 4 D
+[1350] 13 3 P
+[1351] 12 4 D
+[1352] 14 3 P
+[1359] 13 4 D
+[1360] 15 3 P
+[1361] 14 4 D
+[1362] 6 3 P
+[1369] 15 4 D
+[1370] 7 3 P
+[1371] 6 4 D
+[1372] 8 3 P
+[1379] 7 4 D
+[1380] 9 3 P
+[1381] 8 4 D
+[1382] 10 3 P
+[1389] 9 4 D
+[1390] 11 3 P
+[1391] 10 4 D
+[1393] 12 3 P
+[1399] 11 4 D
+[1400] 13 3 P
+[1402] 12 4 D
+[1403] 14 3 P
+[1409] 13 4 D
+[1410] 15 3 P
+[1411] 14 4 D
+[1412] 6 3 P
+[1419] 15 4 D
+[1420] 7 3 P
+[1421] 6 4 D
+[1422] 8 3 P
+[1429] 7 4 D
+[1430] 9 3 P
+[1431] 8 4 D
+[1432] 10 3 P
+[1439] 9 4 D
+[1440] 11 3 P
+[1441] 10 4 D
+[1442] 12 3 P
+[1449] 11 4 D
+[1450] 13 3 P
+[1451] 12 4 D
+[1452] 14 3 P
+[1459] 13 4 D
+[1460] 15 3 P
+[1461] 14 4 D
+[1462] 6 3 P
+[1469] 15 4 D
+[1470] 7 3 P
+[1471] 6 4 D
+[1472] 8 3 P
+[1479] 7 4 D
+[1480] 9 3 P
+[1481] 8 4 D
+[1482] 10 3 P
+[1489] 9 4 D
+[1490] 11 3 P
+[1491] 10 4 D
+[1492] 12 3 P
+[1499] 11 4 D
+[1500] 13 3 P
+[1501] 12 4 D
+[1502] 14 3 P
+[1509] 13 4 D
+[1509] 15 3 P
+[1511] 14 4 D
+[1511] 6 3 P
+[1518] 15 4 D
+[1519] 7 3 P
+[1520] 6 4 D
+[1521] 8 3 P
+[1528] 7 4 D
+[1529] 9 3 P
+[1530] 8 4 D
+[1531] 10 3 P
+[1538] 9 4 D
+[1539] 11 3 P
+[1540] 10 4 D
+[1541] 12 3 P
+[1548] 11 4 D
+[1549] 13 3 P
+[1550] 12 4 D
+[1552] 14 3 P
+[1558] 13 4 D
+[1559] 15 3 P
+[1561] 14 4 D
+[1562] 6 3 P
+[1568] 15 4 D
+[1569] 7 3 P
+[1570] 6 4 D
+[1572] 8 3 P
+[1578] 7 4 D
+[1579] 9 3 P
+[1581] 8 4 D
+[1583] 10 3 P
+[1588] 9 4 D
+[1589] 11 3 P
+[1592] 10 4 D
+[1593] 12 3 P
+[1598] 11 4 D
+[1599] 13 3 P
+[1601] 12 4 D
+[1602] 14 3 P
+[1608] 13 4 D
+[1609] 15 3 P
+[1610] 14 4 D
+[1611] 6 3 P
+[1618] 15 4 D
+[1619] 7 3 P
+[1619] 6 4 D
+[1620] 8 3 P
+[1628] 7 4 D
+[1629] 9 3 P
+[1629] 8 4 D
+[1631] 10 3 P
+[1638] 9 4 D
+[1639] 11 3 P
+[1641] 10 4 D
+[1642] 12 3 P
+[1648] 11 4 D
+[1649] 13 3 P
+[1650] 12 4 D
+[1651] 14 3 P
+[1658] 13 4 D
+[1659] 15 3 P
+[1659] 14 4 D
+[1661] 6 3 P
+[1668] 15 4 D
+[1669] 7 3 P
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 8
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	52	0	29	2	3	3	8	19	19
+2	60		sleep    	6	0	18	1	2	4	0	0	0
+6	60		running  	222	0	26	3	2	4	5	211	0
+7	60		running  	213	0	26	3	2	3	5	203	0
+8	60		runable  	217	40	25	4	2	4	5	206	0
+9	60		runable  	216	31	26	4	2	3	10	201	0
+10	60		runable  	227	28	26	4	2	3	11	211	0
+11	60		runable  	222	21	26	4	3	3	11	205	0
+12	60		runable  	223	19	26	4	2	3	10	208	0
+13	60		runable  	216	11	26	4	3	3	10	200	0
+14	60		runable  	223	10	26	4	2	4	11	206	0
+15	60		runable  	217	1	26	4	3	3	10	201	0
+[1670] Inside exit() for pid 6 with overall runtime 222 and overall wait time 1031
+[1670] 8 3 P
+zombie!
+Inside wait()for pid 1
+[1678] 7 4 D
+[1678] 9 3 P
+[1680] 8 4 D
+[1681] 10 3 P
+[1687] 9 4 D
+[1688] 11 3 P
+[1689] 10 4 D
+[1690] 12 3 P
+[1697] 11 4 D
+[1698] 13 3 P
+[1699] 12 4 D
+[1700] 14 3 P
+[1707] 13 4 D
+[1708] 15 3 P
+[1709] 14 4 D
+[1717] 15 4 D
+[1719] 8 3 P
+[1726] 9 3 P
+[1728] 8 4 D
+[1730] 10 3 P
+[1735] 9 4 D
+[1736] 11 3 P
+[1739] 10 4 D
+[1740] 12 3 P
+[1744] 11 4 D
+[1745] 13 3 P
+[1749] 12 4 D
+[1750] 14 3 P
+[1753] 13 4 D
+[1754] 15 3 P
+[1759] 14 4 D
+[1762] 15 4 D
+[1764] 8 3 P
+[1773] 8 4 D
+[1773] 9 3 P
+[1777] 10 3 P
+[1782] 9 4 D
+[1783] 11 3 P
+[1786] 10 4 D
+[1787] 12 3 P
+[1791] 11 4 D
+[1792] 13 3 P
+[1796] 12 4 D
+[1797] 14 3 P
+[1800] 13 4 D
+[1801] 15 3 P
+[1806] 14 4 D
+[1809] 15 4 D
+[1824] 9 3 P
+[1826] 10 3 P
+[1833] 9 4 D
+[1833] 11 3 P
+[1835] 10 4 D
+[1836] 12 3 P
+[1842] 11 4 D
+[1843] 13 3 P
+[1844] 12 4 D
+[1845] 14 3 P
+[1852] 13 4 D
+[1853] 15 3 P
+[1853] 14 4 D
+[1862] 15 4 D
+[1863] 7 3 P
+[1870] 9 3 P
+[1872] 7 4 D
+[1872] 10 3 P
+[1879] 9 4 D
+[1879] 11 3 P
+[1881] 10 4 D
+[1882] 12 3 P
+[1888] 11 4 D
+[1889] 13 3 P
+[1891] 12 4 D
+[1892] 14 3 P
+[1897] 13 4 D
+[1899] 15 3 P
+[1901] 14 4 D
+[1908] 15 4 D
+[1909] 7 3 P
+[1917] 7 4 D
+[1917] 9 3 P
+[1919] 10 3 P
+[1926] 9 4 D
+[1927] 11 3 P
+[1928] 10 4 D
+[1929] 12 3 P
+[1935] 11 4 D
+[1936] 13 3 P
+[1938] 12 4 D
+[1939] 14 3 P
+[1944] 13 4 D
+[1945] 15 3 P
+[1948] 14 4 D
+[1953] 15 4 D
+[1966] 9 3 P
+[1970] 10 3 P
+[1975] 9 4 D
+[1976] 11 3 P
+[1979] 10 4 D
+[1980] 12 3 P
+[1985] 11 4 D
+[1986] 13 3 P
+[1988] 12 4 D
+[1989] 14 3 P
+[1995] 13 4 D
+[1996] 15 3 P
+[1997] 14 4 D
+[2005] 15 4 D
+[2014] 9 3 P
+[2022] 10 3 P
+[2023] 9 4 D
+[2023] 11 3 P
+[2031] 10 4 D
+[2031] 12 3 P
+[2032] 11 4 D
+[2033] 13 3 P
+[2040] 12 4 D
+[2041] 14 3 P
+[2041] 13 4 D
+[2042] 15 3 P
+[2050] 14 4 D
+[2051] 7 3 P
+[2051] 15 4 D
+[2060] 7 4 D
+[2061] 9 3 P
+[2070] 9 4 D
+[2070] 10 3 P
+[2070] 11 3 P
+[2079] 10 4 D
+[2080] 12 3 P
+[2080] 11 4 D
+[2081] 13 3 P
+[2089] 12 4 D
+[2090] 14 3 P
+[2090] 13 4 D
+[2091] 15 3 P
+[2099] 14 4 D
+[2100] 7 3 P
+[2100] 15 4 D
+[2109] 7 4 D
+[2110] 8 3 P
+[2117] 10 3 P
+[2119] 8 4 D
+[2119] 11 3 P
+[2126] 10 4 D
+[2126] 12 3 P
+[2128] 11 4 D
+[2129] 13 3 P
+[2135] 12 4 D
+[2135] 14 3 P
+[2138] 13 4 D
+[2139] 15 3 P
+[2144] 14 4 D
+[2148] 15 4 D
+[2161] 8 3 P
+[2165] 10 3 P
+[2170] 8 4 D
+[2171] 11 3 P
+[2174] 10 4 D
+[2175] 12 3 P
+[2179] 11 4 D
+[2181] 13 3 P
+[2184] 12 4 D
+[2185] 14 3 P
+[2190] 13 4 D
+[2191] 15 3 P
+[2194] 14 4 D
+[2199] 15 4 D
+[2212] 8 3 P
+[2216] 10 3 P
+[2221] 8 4 D
+[2222] 11 3 P
+[2225] 10 4 D
+[2226] 12 3 P
+[2231] 11 4 D
+[2232] 13 3 P
+[2234] 12 4 D
+[2235] 14 3 P
+[2241] 13 4 D
+[2242] 15 3 P
+[2243] 14 4 D
+[2251] 15 4 D
+[2252] 9 3 P
+[2260] 8 3 P
+[2261] 9 4 D
+[2262] 10 3 P
+[2269] 8 4 D
+[2270] 11 3 P
+[2271] 10 4 D
+[2272] 12 3 P
+[2278] 11 4 D
+[2279] 13 3 P
+[2281] 12 4 D
+[2282] 14 3 P
+[2287] 13 4 D
+[2288] 15 3 P
+[2291] 14 4 D
+[2296] 15 4 D
+[2309] 8 3 P
+[2313] 10 3 P
+[2318] 8 4 D
+[2319] 11 3 P
+[2322] 10 4 D
+[2323] 12 3 P
+[2328] 11 4 D
+[2329] 13 3 P
+[2331] 12 4 D
+[2332] 14 3 P
+[2338] 13 4 D
+[2339] 15 3 P
+[2340] 14 4 D
+[2348] 15 4 D
+[2349] 9 3 P
+[2357] 8 3 P
+[2358] 9 4 D
+[2359] 10 3 P
+[2366] 8 4 D
+[2367] 11 3 P
+[2368] 10 4 D
+[2369] 12 3 P
+[2375] 11 4 D
+[2376] 13 3 P
+[2378] 12 4 D
+[2379] 14 3 P
+[2384] 13 4 D
+[2385] 15 3 P
+[2388] 14 4 D
+[2393] 15 4 D
+[2406] 8 3 P
+[2410] 10 3 P
+[2415] 8 4 D
+[2416] 11 3 P
+[2419] 10 4 D
+[2420] 12 3 P
+[2425] 11 4 D
+[2426] 13 3 P
+[2428] 12 4 D
+[2429] 14 3 P
+[2435] 13 4 D
+[2436] 15 3 P
+[2437] 14 4 D
+[2445] 15 4 D
+[2446] 9 3 P
+[2454] 8 3 P
+[2455] 9 4 D
+[2456] 10 3 P
+[2463] 8 4 D
+[2464] 11 3 P
+[2465] 10 4 D
+[2466] 12 3 P
+[2472] 11 4 D
+[2473] 13 3 P
+[2475] 12 4 D
+[2476] 14 3 P
+[2481] 13 4 D
+[2482] 15 3 P
+[2485] 14 4 D
+[2490] 15 4 D
+[2504] 8 3 P
+[2507] 10 3 P
+[2513] 8 4 D
+[2513] 11 3 P
+[2516] 10 4 D
+[2516] 12 3 P
+[2522] 11 4 D
+[2523] 13 3 P
+[2525] 12 4 D
+[2526] 14 3 P
+[2532] 13 4 D
+[2533] 15 3 P
+[2534] 14 4 D
+[2542] 15 4 D
+[2543] 9 3 P
+[2551] 8 3 P
+[2552] 9 4 D
+[2553] 10 3 P
+[2560] 8 4 D
+[2560] 11 3 P
+[2562] 10 4 D
+[2563] 12 3 P
+[2569] 11 4 D
+[2570] 13 3 P
+[2572] 12 4 D
+[2574] 14 3 P
+[2578] 13 4 D
+[2579] 15 3 P
+[2583] 14 4 D
+[2587] 15 4 D
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 7
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	54	0	30	2	3	3	10	19	19
+2	60		sleep    	6	0	18	1	2	4	0	0	0
+7	60		running  	502	0	45	4	2	3	5	248	244
+8	60		runable  	436	30	44	4	2	4	5	323	102
+9	60		running  	438	0	46	4	2	3	10	318	105
+10	60		runable  	398	28	45	4	2	3	11	382	0
+11	60		runable  	394	21	45	4	3	3	11	377	0
+12	60		runable  	395	18	45	4	2	3	10	380	0
+13	60		runable  	388	12	45	4	3	3	10	372	0
+14	60		runable  	395	7	45	4	2	4	11	378	0
+15	60		runable  	390	3	45	4	3	3	10	374	0
+[2591] Inside exit() for pid 7 with overall runtime 503 and overall wait time 1671
+zombie!
+Inside wait()for pid 1
+[2604] 10 3 P
+[2608] 11 3 P
+[2613] 10 4 D
+[2614] 12 3 P
+[2617] 11 4 D
+[2618] 13 3 P
+[2622] 12 4 D
+[2623] 14 3 P
+[2627] 13 4 D
+[2628] 15 3 P
+[2631] 14 4 D
+[2637] 15 4 D
+[2655] 11 3 P
+[2664] 11 4 D
+[2664] 12 3 P
+[2665] 13 3 P
+[2673] 12 4 D
+[2674] 14 3 P
+[2675] 13 4 D
+[2675] 15 3 P
+[2683] 14 4 D
+[2684] 15 4 D
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 6
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	54	0	31	2	3	3	10	19	19
+2	60		sleep    	6	0	18	1	2	4	0	0	0
+8	60		running  	482	0	47	4	2	4	5	323	148
+9	60		running  	482	0	48	4	2	3	10	318	149
+10	60		runable  	424	31	47	4	2	3	11	391	17
+11	60		runable  	412	32	47	4	3	3	11	395	0
+12	60		runable  	413	23	47	4	2	3	10	398	0
+13	60		runable  	407	21	47	4	3	3	10	391	0
+14	60		runable  	413	13	47	4	2	4	11	396	0
+15	60		runable  	408	12	47	4	3	3	10	392	0
+[2697] Inside exit() for pid 8 with overall runtime 482 and overall wait time 1798
+zombie!
+Inside wait()for pid 1
+[2713] 12 3 P
+[2717] 13 3 P
+[2722] 12 4 D
+[2723] 14 3 P
+[2726] 13 4 D
+[2728] 15 3 P
+[2731] 14 4 D
+[2737] 15 4 D
+[2765] 13 3 P
+[2772] 14 3 P
+[2774] 13 4 D
+[2774] 15 3 P
+[2781] 14 4 D
+[2783] 15 4 D
+[2815] 13 3 P
+[2817] 14 3 P
+[2824] 13 4 D
+[2825] 15 3 P
+[2827] 14 4 D
+[2834] 15 4 D
+[2861] 13 3 P
+[2869] 14 3 P
+[2870] 13 4 D
+[2870] 15 3 P
+[2878] 14 4 D
+[2879] 15 4 D
+[2912] 13 3 P
+[2921] 13 4 D
+[2922] 15 3 P
+[2931] 15 4 D
+[2964] 13 3 P
+[2966] 14 3 P
+[2973] 13 4 D
+[2973] 15 3 P
+[2975] 14 4 D
+[2982] 15 4 D
+[3010] 13 3 P
+[3016] 14 3 P
+[3019] 13 4 D
+[3021] 15 3 P
+[3025] 14 4 D
+[3030] 15 4 D
+[3059] 13 3 P
+[3065] 14 3 P
+[3068] 13 4 D
+[3070] 15 3 P
+[3074] 14 4 D
+[3079] 15 4 D
+[3109] 13 3 P
+[3113] 14 3 P
+[3118] 13 4 D
+[3118] 15 3 P
+[3122] 14 4 D
+[3127] 15 4 D
+[3156] 13 3 P
+[3162] 14 3 P
+[3165] 13 4 D
+[3166] 15 3 P
+[3171] 14 4 D
+[3174] 15 4 D
+[3206] 13 3 P
+[3208] 14 3 P
+[3215] 13 4 D
+[3216] 15 3 P
+[3217] 14 4 D
+[3225] 15 4 D
+[3251] 13 3 P
+[3259] 14 3 P
+[3260] 13 4 D
+[3268] 14 4 D
+[3303] 13 3 P
+[3311] 14 3 P
+[3312] 13 4 D
+[3313] 15 3 P
+[3320] 14 4 D
+[3322] 15 4 D
+[3354] 13 3 P
+[3357] 14 3 P
+[3363] 13 4 D
+[3364] 15 3 P
+[3366] 14 4 D
+[3372] 15 4 D
+[3401] 13 3 P
+[3406] 14 3 P
+[3410] 13 4 D
+[3411] 15 3 P
+[3415] 14 4 D
+[3420] 15 4 D
+[3449] 13 3 P
+[3456] 14 3 P
+[3458] 13 4 D
+[3460] 15 3 P
+[3465] 14 4 D
+[3469] 15 4 D
+[3500] 13 3 P
+[3503] 14 3 P
+[3509] 13 4 D
+[3510] 15 3 P
+[3512] 14 4 D
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 5
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	54	0	32	2	3	3	10	19	19
+2	60		sleep    	6	0	18	1	2	4	0	0	0
+9	60		running  	762	0	65	4	2	3	10	318	429
+10	60		runable  	713	18	64	4	2	3	11	391	306
+11	60		runable  	701	32	64	4	3	3	11	395	289
+12	60		runable  	694	15	64	4	2	3	10	407	272
+13	60		runable  	560	9	64	4	3	3	10	544	0
+14	60		runable  	575	6	64	4	2	4	11	541	17
+15	60		running  	568	0	64	3	3	3	10	535	17
+[3519] Inside exit() for pid 9 with overall runtime 762 and overall wait time 2340
+zombie!
+Inside wait()for pid 1
+[3519] 15 4 D
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 4
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	56	0	33	2	3	3	12	19	19
+2	60		sleep    	6	0	18	1	2	4	0	0	0
+10	60		running  	725	0	65	4	2	3	11	391	318
+11	60		running  	713	0	65	4	3	3	11	395	301
+12	60		runable  	694	29	64	4	2	3	10	407	272
+13	60		runable  	560	23	64	4	3	3	10	544	0
+14	60		runable  	575	20	64	4	2	4	11	541	17
+15	60		runable  	569	13	64	4	3	3	10	536	17
+[3533] Inside exit() for pid 10 with overall runtime 725 and overall wait time 2390
+zombie!
+Inside wait()for pid 1
+[3549] 14 3 P
+[3558] 14 4 D
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 3
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	56	0	34	2	3	3	12	19	19
+2	60		sleep    	6	0	18	1	2	4	0	0	0
+11	60		running  	931	0	78	4	3	3	11	395	519
+12	60		runable  	915	26	77	4	2	3	10	407	493
+13	60		runable  	781	12	77	4	3	3	10	544	221
+14	60		runable  	788	9	77	4	2	4	11	550	221
+15	60		running  	785	0	77	4	3	3	10	536	233
+[4078] Inside exit() for pid 11 with overall runtime 931 and overall wait time 2729
+zombie!
+Inside wait()for pid 1
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 2
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	56	0	35	2	3	3	12	19	19
+2	60		sleep    	6	0	18	1	2	4	0	0	0
+12	60		running  	998	0	82	4	2	3	10	407	576
+13	60		running  	858	0	82	4	3	3	10	544	298
+14	60		runable  	856	15	81	4	2	4	11	550	289
+15	60		runable  	858	9	81	4	3	3	10	536	306
+[4229] Inside exit() for pid 12 with overall runtime 998 and overall wait time 2812
+zombie!
+Inside wait()for pid 1
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 1
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	56	0	36	2	3	3	12	19	19
+2	60		sleep    	6	0	18	1	2	4	0	0	0
+13	60		running  	1236	0	104	4	3	3	10	544	676
+14	60		running  	1234	0	104	4	2	4	11	550	667
+15	60		runable  	1232	4	103	4	3	3	10	536	680
+[4794] Inside exit() for pid 14 with overall runtime 1234 and overall wait time 3141
+zombie!
+Inside wait()for pid 1
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 0
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	56	0	37	2	3	3	12	19	19
+2	60		sleep    	6	0	18	1	2	4	0	0	0
+13	60		running  	1249	0	105	4	3	3	10	544	689
+15	60		running  	1245	0	104	4	3	3	10	536	693
+[4807] Inside exit() for pid 13 with overall runtime 1250 and overall wait time 3138
+zombie!
+Inside wait()for pid 1
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 0
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	57	0	38	2	3	3	13	19	19
+2	60		sleep    	6	0	18	1	2	4	0	0	0
+15	60		running  	1484	0	118	4	3	3	10	536	932
+[5046] Inside exit() for pid 15 with overall runtime 1484 and overall wait time 3143
+zombie!
+Inside wait()for pid 1
+QEMU: Terminated
+

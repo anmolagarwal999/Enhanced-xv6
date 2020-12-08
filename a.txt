@@ -1,0 +1,239 @@
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -D MLFQ -fno-pie -no-pie   -c -o benchmark.o benchmark.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o _benchmark benchmark.o ulib.o usys.o printf.o umalloc.o
+objdump -S _benchmark > benchmark.asm
+objdump -t _benchmark | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > benchmark.sym
+./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _mkdir _rm _sh _stressfs _usertests _wc _zombie _user_prog_hello _time _benchmark _ps _setPriority 
+nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
+balloc: first 712 blocks have been allocated
+balloc: write bitmap block at sector 58
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 2 -m 512 
+xv6...
+cpu1: starting 1
+Inside allocproc() allotted pid 1
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+[16] 1 1 D
+[19] 1 2 D
+[1;32mEntered main() of init.c state 2
+[0m[1;32mEntered main() of init.c state 3
+[0m[1;33minit: starting sh
+[0mInside allocproc() allotted pid 2
+[1;35mBefore waiting
+[0mInside wait()for pid 1
+[45] 2 1 D
+$ benchmark
+Inside allocproc() allotted pid 3
+Inside wait()for pid 2
+[378] 3 1 D
+Inside allocproc() allotted pid 4
+Inside allocproc() allotted pid 5
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 0
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	25	0	25	2	12	3	10	0	0
+2	60		sleep    	14	0	17	1	6	8	0	0	0
+3	60		running  	11	0	8	1	9	2	0	0	0
+4	60		running  	1	0	1	0	1	0	0	0	0
+5	60		embryo   	0	0	0	0	0	0	0	0	0
+[381] 4 1 D
+[381] Inside exit() for pid 4 with overall runtime 2 and overall wait time 0
+[383] 3 2 D
+Inside allocproc() allotted pid 6
+Inside allocproc() allotted pid 7
+Inside allocproc() allotted pid 8
+Inside allocproc() allotted pid 9
+[385] 5 1 D
+[387] 6 1 D
+[388] 3 3 D
+[389] 7 1 D
+[391] 8 1 D
+[392] 5 2 D
+[394] 6 2 D
+[396] 7 2 D
+[397] 8 2 D
+[401] 5 3 D
+[402] 6 3 D
+[407] 7 3 D
+Inside allocproc() allotted pid 10
+Inside allocproc() allotted pid 11
+[407] 8 3 D
+[409] Inside exit() for pid 3 with overall runtime 21 and overall wait time 21
+[409] 9 1 D
+[411] 10 1 D
+[413] 11 1 D
+$[415] 2 2 D
+[416] 9 2 D
+[418] 10 2 D
+zombie!
+Inside wait()for pid 1
+ [419] 11 2 D
+[423] 9 3 D
+[424] 10 3 D
+[429] 11 3 D
+[433] 5 4 D
+[438] 6 4 D
+[439] 8 2 P
+[444] 8 3 D
+[444] 7 4 D
+[453] 9 4 D
+[454] 10 4 D
+[463] 11 4 D
+[463] 8 4 D
+[480] 7 3 P
+[489] 7 4 D
+[490] 10 3 P
+[499] 10 4 D
+[499] 8 3 P
+[508] 8 4 D
+[526] 7 3 P
+[535] 7 4 D
+[535] 10 3 P
+[544] 10 4 D
+[545] 8 3 P
+[554] 8 4 D
+[571] 7 3 P
+[580] 7 4 D
+[582] 10 3 P
+[591] 10 4 D
+[591] 8 3 P
+[600] 8 4 D
+[617] 7 3 P
+[626] 7 4 D
+[628] 10 3 P
+[636] 8 3 P
+[637] 10 4 D
+[637] 9 3 P
+[645] 8 4 D
+[646] 9 4 D
+[663] 7 3 P
+[672] 7 4 D
+[681] 8 3 P
+[689] 9 3 P
+[690] 8 4 D
+[698] 9 4 D
+[733] 8 3 P
+[741] 9 3 P
+[742] 8 4 D
+[743] 11 3 P
+[750] 9 4 D
+[752] 11 4 D
+[784] 8 3 P
+[788] 9 3 P
+[793] 8 4 D
+[794] 11 3 P
+[797] 9 4 D
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 5
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	25	0	26	2	12	3	10	0	0
+2	60		sleep    	17	0	19	2	6	11	0	0	0
+5	60		running  	143	0	12	4	2	3	5	9	124
+6	60		runable  	139	18	11	4	2	3	5	9	120
+7	60		runable  	98	32	11	4	2	3	5	54	34
+8	60		runable  	87	9	12	4	2	3	10	72	0
+9	60		runable  	106	5	11	4	2	3	5	45	51
+10	60		runable  	107	15	11	4	2	3	5	46	51
+11	60		running  	124	0	11	3	4	3	5	27	85
+[803] Inside exit() for pid 5 with overall runtime 144 and overall wait time 280
+zombie!
+Inside wait()for pid 1
+[803] 11 4 D
+[837] 9 3 P
+[839] 11 3 P
+[846] 9 4 D
+[848] 11 4 D
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 4
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	27	0	27	2	12	3	12	0	0
+2	60		sleep    	17	0	19	2	6	11	0	0	0
+6	60		running  	259	0	19	4	2	3	5	9	240
+7	60		running  	221	0	19	4	2	3	5	54	157
+8	60		runable  	206	18	19	4	2	3	10	72	119
+9	60		runable  	217	4	18	4	2	3	5	54	153
+10	60		runable  	226	21	18	4	2	3	5	46	170
+11	60		runable  	236	1	18	4	4	3	5	37	187
+[1157] Inside exit() for pid 6 with overall runtime 260 and overall wait time 513
+zombie!
+Inside wait()for pid 1
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 3
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	27	0	28	2	12	3	12	0	0
+2	60		sleep    	17	0	19	2	6	11	0	0	0
+7	60		running  	370	0	28	4	2	3	5	54	306
+8	60		runable  	359	6	28	4	2	3	10	72	272
+9	60		runable  	370	0	27	4	2	3	5	54	306
+10	60		runable  	379	17	27	4	2	3	5	46	323
+11	60		running  	378	0	27	4	4	3	5	37	329
+[1533] Inside exit() for pid 7 with overall runtime 371 and overall wait time 778
+zombie!
+Inside wait()for pid 1
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 2
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	27	0	29	2	12	3	12	0	0
+2	60		sleep    	17	0	19	2	6	11	0	0	0
+8	60		running  	641	0	45	4	2	3	10	72	554
+9	60		running  	642	0	44	4	2	3	5	54	578
+10	60		runable  	668	0	44	4	2	3	5	46	612
+11	60		runable  	661	10	43	4	4	3	5	37	612
+[2098] Inside exit() for pid 8 with overall runtime 641 and overall wait time 1072
+zombie!
+Inside wait()for pid 1
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 1
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	27	0	30	2	12	3	12	0	0
+2	60		sleep    	17	0	19	2	6	11	0	0	0
+9	60		running  	780	0	52	4	2	3	5	54	716
+10	60		runable  	804	1	52	4	2	3	5	46	748
+11	60		running  	798	0	52	4	4	3	5	37	749
+[2304] Inside exit() for pid 9 with overall runtime 781 and overall wait time 1138
+zombie!
+Inside wait()for pid 1
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 0
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	28	0	31	2	12	3	13	0	0
+2	60		sleep    	17	0	19	2	6	11	0	0	0
+10	60		running  	992	0	64	4	2	3	5	46	936
+11	60		running  	993	0	63	4	4	3	5	37	944
+[2500] Inside exit() for pid 10 with overall runtime 993 and overall wait time 1100
+zombie!
+Inside wait()for pid 1
+Size of queue id 0 is 0
+Size of queue id 1 is 0
+Size of queue id 2 is 0
+Size of queue id 3 is 0
+Size of queue id 4 is 0
+pid	Priority	State	  r_time	w_time	n_run	cur_q	q0	q1	q2	q3	q4
+1	60		sleep    	28	0	32	2	12	3	13	0	0
+2	60		sleep    	17	0	19	2	6	11	0	0	0
+11	60		running  	1275	0	79	4	4	3	5	37	1226
+[2781] Inside exit() for pid 11 with overall runtime 1275 and overall wait time 1099
+zombie!
+Inside wait()for pid 1
+QEMU: Terminated
+
